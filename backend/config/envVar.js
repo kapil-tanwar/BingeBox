@@ -7,4 +7,5 @@ export const ENV_VARS = {
   JWT_SECRET: process.env.JWT_SECRET,
   NODE_ENV: process.env.NODE_ENV,
   TMDB_API_KEY: process.env.TMDB_API_KEY,
+  FRONTEND_ORIGIN: process.env.FRONTEND_ORIGIN,
 };
