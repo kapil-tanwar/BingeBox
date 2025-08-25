@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body::-webkit-scrollbar {
+  width: 4px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgb(15, 14, 14);
+  border-radius: 15px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgb(75, 75, 76);
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: rgb(20, 156, 210);
+}
+
+.hero-bg {
+  background: url("/hero7.webp");
+  background-position: center;
+  background-size: cover;
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #2c2c2c 4%, #333 25%, #2c2c2c 36%);
+  background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.homeImage {
+  background: url("https://image.tmdb.org/t/p/original/j9uruwRe9qM8RnP758dF7ISB8Bj.jp");
+  background-position: center;
+  background-size: cover;
+}
+
+.result::-webkit-scrollbar {
+  width: 4px;
+}
+
+.result::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}
+
+.result::-webkit-scrollbar-thumb {
+  background: rgba(75, 189, 233, 0.5);
+  border-radius: 10px;
+}
+
+.result::-webkit-scrollbar-thumb:hover {
+  background: rgba(75, 189, 233, 1);
+}
