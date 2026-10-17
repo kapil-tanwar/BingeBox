@@ -18,29 +18,34 @@ const __dirname = path.resolve();
 // Trust Render/Proxy so secure cookies work behind TLS termination
 app.set("trust proxy", 1);
 
-const allowedOrigins =
-  ENV_VARS.NODE_ENV === "production"
-    ? [ENV_VARS.FRONTEND_ORIGIN].filter(Boolean)
-    : ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"];
+const parseOrigins = () => {
+  if (ENV_VARS.NODE_ENV === "production") {
+    if (!ENV_VARS.FRONTEND_ORIGIN) return [];
+    return ENV_VARS.FRONTEND_ORIGIN.split(",")
+      .map((o) => o.trim().replace(/\/+$/, ""))
+      .filter(Boolean);
+  }
+  return ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"];
+};
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (e.g. mobile apps or curl) or if origin is in whitelist
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const allowedOrigins = parseOrigins();
 
-// Ensure preflight responses for any route
-app.options("*", cors());
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const cleanOrigin = origin.replace(/\/+$/, "");
+    if (allowedOrigins.length === 0 || allowedOrigins.includes(cleanOrigin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Not allowed by CORS: ${origin}`));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
