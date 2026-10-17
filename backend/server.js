@@ -33,9 +33,15 @@ const allowedOrigins = parseOrigins();
 
 const corsOptions = {
   origin: (origin, callback) => {
+    // If request has no Origin header (same-origin, Postman, curl, server-to-server)
     if (!origin) return callback(null, true);
     const cleanOrigin = origin.replace(/\/+$/, "");
-    if (allowedOrigins.length === 0 || allowedOrigins.includes(cleanOrigin)) {
+    // If FRONTEND_ORIGIN is not set, or cleanOrigin matches whitelist, or cleanOrigin ends with onrender.com
+    if (
+      allowedOrigins.length === 0 ||
+      allowedOrigins.includes(cleanOrigin) ||
+      cleanOrigin.endsWith(".onrender.com")
+    ) {
       return callback(null, true);
     }
     return callback(new Error(`Not allowed by CORS: ${origin}`));
