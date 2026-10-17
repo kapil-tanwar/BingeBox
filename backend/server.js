@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
+import fs from "fs";
 
 import authRoutes from "./routes/auth.route.js";
 import movieRoutes from "./routes/movie.route.js";
@@ -53,11 +54,18 @@ app.use("/api/auth", authRoutes);
 app.use("/api/movie", movieRoutes);
 app.use("/api/tv", tvRoutes);
 app.use("/api/search", searchRoutes);
+ 
+const frontendDistPath = path.join(__dirname, "frontend", "dist");
+const hasFrontendDist = fs.existsSync(frontendDistPath);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+if (hasFrontendDist) {
+  app.use(express.static(frontendDistPath));
+  app.get("*", (req, res, next) => {
+    // If request starts with /api, pass to 404 handler instead of index.html
+    if (req.path.startsWith("/api")) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDistPath, "index.html"));
   });
 }
 
