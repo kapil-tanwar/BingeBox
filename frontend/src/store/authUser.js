@@ -50,7 +50,10 @@ export const useAuthStore = create((set) => ({
       set({ user: response.data.user, isCheckingAuth: false });
     } catch (error) {
       set({ user: null, isCheckingAuth: false });
-      console.log(error);
+      // Only log unexpected errors, not standard unauthenticated responses
+      if (error.response?.status !== 401 && error.response?.status !== 404) {
+        console.error("Auth check failed:", error);
+      }
     }
   },
 }));
