@@ -80,14 +80,10 @@ const WatchPage = () => {
   }, [content]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [type, id]);
-
-  useEffect(() => {
-    if (!loading && content && hash === "#screening") {
-      document.getElementById("screening")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [loading, content, hash]);
 
   const videos = useMemo(
     () =>
@@ -141,27 +137,25 @@ const WatchPage = () => {
     <Shell flush>
       <div className="page-enter">
         {/* Opening frame */}
-        <section className="relative isolate overflow-hidden">
-          <div className="absolute inset-0 -z-10">
-            <div className="hero-drift grain absolute inset-0">
-              <Artwork
-                path={content.backdrop_path || content.poster_path}
-                title={title}
-                kind="backdrop"
-                ratio="none"
-                priority
-                sizes="100vw"
-                position="center 25%"
-                className="absolute inset-0 h-full w-full"
+        <section className="relative isolate overflow-hidden min-h-[560px] lg:min-h-[680px]">
+          {/* Large background backdrop poster */}
+          <div className="fade-in absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            {(content.backdrop_path || content.poster_path) && (
+              <img
+                src={`https://image.tmdb.org/t/p/original${content.backdrop_path || content.poster_path}`}
+                alt={title}
+                className="hero-drift absolute inset-0 h-full w-full object-cover object-[center_20%] opacity-50 scale-105"
+                loading="eager"
+                decoding="async"
               />
-            </div>
-            <div className="absolute inset-0 bg-ink/45" aria-hidden="true" />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />
-            <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-transparent to-transparent" aria-hidden="true" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/20" aria-hidden="true" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/10" aria-hidden="true" />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent" aria-hidden="true" />
           </div>
 
-          <div className="frame grid gap-10 pb-16 pt-[calc(var(--nav-h)+140px)] md:grid-cols-[minmax(0,260px)_1fr] md:items-end md:gap-14 lg:pt-[calc(var(--nav-h)+220px)]">
-            <div className="rise hidden w-[min(260px,100%)] md:block">
+          <div className="frame relative z-10 grid gap-10 pb-16 pt-[calc(var(--nav-h)+120px)] md:grid-cols-[minmax(0,260px)_1fr] md:items-end md:gap-14 lg:pt-[calc(var(--nav-h)+180px)]">
+            <div className="rise block w-[160px] sm:w-[220px] md:w-[min(260px,100%)]">
               <Artwork
                 path={content.poster_path}
                 title={title}

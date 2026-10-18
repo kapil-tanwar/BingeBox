@@ -28,9 +28,11 @@ function App() {
     loadWatchlist(user?._id || user?.id || user?.username || null);
   }, [user, loadWatchlist]);
 
-  // New page, new scroll position (the details page handles its own #hash).
+  // Always scroll to top upon navigating to any new page
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [pathname]);
 
   if (isCheckingAuth) {

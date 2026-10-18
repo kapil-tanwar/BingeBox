@@ -131,7 +131,7 @@ const Hero = ({ items, type }) => {
           </p>
 
           <div className="rise mt-9 flex flex-wrap items-center gap-3" style={{ "--d": "440ms" }}>
-            <Link to={`/watch/${item.id}?type=${mediaType}#screening`} className="btn-primary">
+            <Link to={`/watch/${item.id}?type=${mediaType}`} className="btn-primary">
               <Play className="size-4 fill-current" /> Watch trailer
             </Link>
             <Link to={`/watch/${item.id}?type=${mediaType}`} className="btn-ghost">
