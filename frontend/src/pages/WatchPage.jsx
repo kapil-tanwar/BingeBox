@@ -72,19 +72,12 @@ const WatchPage = () => {
     };
   }, [type, id]);
 
-  // Cast & crew come straight from TMDB (same client the old search used).
-  // Optional: if the key isn't configured the section simply doesn't appear.
+  // Cast & crew are derived directly from content.credits or state.
   useEffect(() => {
-    let alive = true;
-    setCredits(null);
-    instance
-      .get(`${type}/${id}/credits`)
-      .then((res) => alive && setCredits(res.data))
-      .catch(() => alive && setCredits(null));
-    return () => {
-      alive = false;
-    };
-  }, [type, id]);
+    if (content?.credits) {
+      setCredits(content.credits);
+    }
+  }, [content]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -125,10 +118,10 @@ const WatchPage = () => {
   const original = content.original_title || content.original_name;
   const runtime = formatRuntime(content.runtime || content.episode_run_time?.[0]);
   const score = rating(content);
-  const directors = (credits?.crew || []).filter((c) => c.job === "Director");
+  const directors = (content?.credits?.crew || credits?.crew || []).filter((c) => c.job === "Director");
   const makers =
     mediaType === "tv" ? content.created_by || [] : directors;
-  const cast = (credits?.cast || []).slice(0, 10);
+  const cast = (content?.credits?.cast || credits?.cast || []).slice(0, 10);
   const seasons = (content.seasons || []).filter((s) => s.season_number > 0 || content.seasons.length === 1);
   const current = videos[Math.min(currentTrailerIdx, videos.length - 1)];
 
