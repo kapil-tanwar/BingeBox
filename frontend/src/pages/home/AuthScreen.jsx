@@ -194,40 +194,41 @@ const AuthScreen = () => {
             aria-hidden="true"
           />
 
-          <div className="w-full grid items-center gap-10 lg:grid-cols-[1.1fr_1.35fr] pl-5 sm:pl-8 lg:pl-16 xl:pl-24 pr-0">
+          <div className="w-full grid items-center gap-10 lg:grid-cols-[1.1fr_1.35fr] px-5 sm:px-8 lg:pl-16 lg:pr-0 xl:pl-24">
             {/* Hero Copy */}
             <div className="relative z-20 max-w-xl py-6">
-              <p className="rise eyebrow mb-6">Cinema, curated</p>
-              <h1 className="rise display text-balance text-[clamp(3.4rem,8.5vw,7.5rem)] leading-[0.98]" style={{ "--d": "100ms" }}>
+              <p className="rise eyebrow mb-5 sm:mb-6">Cinema, curated</p>
+              <h1 className="rise display text-balance text-[clamp(2.3rem,6.5vw,7rem)] leading-[1.02]" style={{ "--d": "100ms" }}>
                 Find the film you'll <em className="text-champagne">remember.</em>
               </h1>
-              <p className="rise mt-8 max-w-md text-base leading-relaxed text-ivory/70" style={{ "--d": "220ms" }}>
+              <p className="rise mt-6 sm:mt-8 max-w-md text-[15px] sm:text-base leading-relaxed text-ivory/70" style={{ "--d": "220ms" }}>
                 BingeBox is a quieter way to discover films and series — thoughtfully arranged,
                 beautifully presented, and free of endless scrolling.
               </p>
 
-              <form onSubmit={onSubmit} className="rise mt-10 flex max-w-lg flex-col gap-3 sm:flex-row" style={{ "--d": "320ms" }}>
+              <form onSubmit={onSubmit} className="rise mt-8 sm:mt-10 flex w-full max-w-lg flex-col gap-3 sm:flex-row sm:items-stretch" style={{ "--d": "320ms" }}>
                 <label htmlFor="landing-email" className="sr-only">Email address</label>
-                <input
-                  id="landing-email"
-                  type="email"
-                  required
-                  placeholder="Your email address"
-                  className="field flex-1"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <button type="submit" className="btn-primary">
+                <div className="relative flex-1">
+                  <input
+                    id="landing-email"
+                    type="email"
+                    placeholder="Your email address"
+                    className="w-full bg-white/[0.06] border border-white/20 px-4 py-3 sm:py-3.5 text-base text-ivory placeholder:text-mute/60 focus:border-champagne focus:bg-white/[0.09] focus:outline-none transition-all duration-300"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <button type="submit" className="btn-primary w-full sm:w-auto shrink-0 justify-center py-3.5 sm:py-0">
                   Get started <ArrowRight className="size-4" />
                 </button>
               </form>
             </div>
 
             {/* Seamless Bleeding Collage Image */}
-            <div className="relative w-full overflow-hidden select-none pr-5">
-              {/* Left-edge smooth fade gradient: blends black background smoothly into the image */}
+            <div className="relative w-full overflow-hidden select-none pr-0 lg:pr-5 mt-4 lg:mt-0">
+              {/* Left-edge smooth fade gradient: blends black background smoothly into the image on desktop */}
               <div
-                className="pointer-events-none absolute inset-y-0 left-0 w-44 sm:w-64 lg:w-80 z-10"
+                className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-64 lg:w-80 z-10 hidden lg:block"
                 style={{
                   background: "linear-gradient(to right, rgb(var(--ink)) 0%, rgb(var(--ink) / 0.95) 20%, rgb(var(--ink) / 0.6) 55%, transparent 100%)",
                 }}
@@ -255,7 +256,7 @@ const AuthScreen = () => {
               <img
                 src="/hero-collage.jpg"
                 alt="Cinema collage preview"
-                className="w-full h-auto min-h-[460px] sm:min-h-[580px] lg:min-h-[680px] max-h-[85vh] object-cover object-left xl:object-center"
+                className="w-full h-auto min-h-[320px] sm:min-h-[500px] lg:min-h-[680px] max-h-[85vh] object-cover object-left xl:object-center"
                 loading="eager"
               />
             </div>
