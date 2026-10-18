@@ -31,7 +31,6 @@ A full-stack, cinematic streaming platform built with **React**, **Node.js**, **
 
 ---
 
-## 📁 Project Structure
 
 ```
 BingeBox/
