@@ -36,10 +36,11 @@ const corsOptions = {
     // If request has no Origin header (same-origin, Postman, curl, server-to-server)
     if (!origin) return callback(null, true);
     const cleanOrigin = origin.replace(/\/+$/, "");
-    // If FRONTEND_ORIGIN is not set, or cleanOrigin matches whitelist, or cleanOrigin ends with onrender.com
+    // If FRONTEND_ORIGIN is not set, or cleanOrigin matches whitelist, or cleanOrigin ends with onrender.com / vercel.app
     if (
       allowedOrigins.length === 0 ||
       allowedOrigins.includes(cleanOrigin) ||
+      cleanOrigin.endsWith(".vercel.app") ||
       cleanOrigin.endsWith(".onrender.com")
     ) {
       return callback(null, true);
