@@ -55,11 +55,12 @@ export async function signup(req, res) {
       image,
     });
 
-    generateToken(newUser._id, res);
+    const token = generateToken(newUser._id, res);
     await newUser.save();
 
     res.status(201).json({
       success: true,
+      token,
       user: {
         ...newUser._doc,
         password: "",
@@ -95,10 +96,10 @@ export const signin = async (req, res) => {
         .json({ success: false, message: "Invalid password" });
     }
 
-    generateToken(user._id, res);
+    const token = generateToken(user._id, res);
     res
       .status(200)
-      .json({ success: true, user: { ...user._doc, password: "" } });
+      .json({ success: true, token, user: { ...user._doc, password: "" } });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
