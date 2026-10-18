@@ -31,7 +31,7 @@ const WatchlistPage = () => {
           Watch<em className="text-champagne">list</em>
         </h1>
         <p className="mt-5 max-w-md text-mute">
-          Everything you've set aside for later. Saved on this device for your account.
+          Everything you've set aside for later. Synced securely to your account.
         </p>
 
         {items.length > 0 && (

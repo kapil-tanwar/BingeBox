@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.route.js";
 import movieRoutes from "./routes/movie.route.js";
 import tvRoutes from "./routes/tv.route.js";
 import searchRoutes from "./routes/search.route.js";
+import watchlistRoutes from "./routes/watchlist.route.js";
 
 import { ENV_VARS } from "./config/envVar.js";
 import connectDB from "./config/db.js";
@@ -61,6 +62,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/movie", movieRoutes);
 app.use("/api/tv", tvRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/watchlist", watchlistRoutes);
  
 const frontendDistPath = path.join(__dirname, "frontend", "dist");
 const hasFrontendDist = fs.existsSync(frontendDistPath);

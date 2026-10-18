@@ -8,7 +8,11 @@ import { titleOf, typeOf, yearOf } from "../utils/media";
 const WatchlistButton = ({ item, type, variant = "full", className = "" }) => {
   const mediaType = type || typeOf(item);
   const saved = useWatchlistStore((s) =>
-    s.items.some((i) => i.id === item.id && i.media_type === mediaType)
+    s.items.some(
+      (i) =>
+        (Number(i.id) === Number(item.id) || i.id === item.id) &&
+        (i.media_type === mediaType || i.type === mediaType)
+    )
   );
   const toggle = useWatchlistStore((s) => s.toggle);
   const [burst, setBurst] = useState(false);
@@ -16,10 +20,12 @@ const WatchlistButton = ({ item, type, variant = "full", className = "" }) => {
   const onClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const added = toggle({
+    const wasSaved = saved;
+    toggle({
       id: item.id,
       media_type: mediaType,
       title: titleOf(item),
+      name: item.name || item.title || "",
       poster_path: item.poster_path || null,
       backdrop_path: item.backdrop_path || null,
       year: yearOf(item),
@@ -27,7 +33,7 @@ const WatchlistButton = ({ item, type, variant = "full", className = "" }) => {
     });
     setBurst(true);
     setTimeout(() => setBurst(false), 500);
-    toast(added ? "Added to your watchlist" : "Removed from your watchlist", {
+    toast(!wasSaved ? "Added to your watchlist" : "Removed from your watchlist", {
       style: toastStyle,
     });
   };
